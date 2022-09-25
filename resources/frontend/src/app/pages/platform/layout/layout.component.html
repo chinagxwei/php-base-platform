@@ -1,0 +1,29 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed">
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item [nzSelected]="item.select" *ngFor="let item of menuItems; index as i">
+        <a routerLink="{{item.navigation_link}}" routerLinkActive="active">
+          <i nz-icon nzType="{{item.icon}}" nzTheme="outline"></i>
+          <span class="nav-item">{{item.navigation_name}}</span>
+        </a>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <ul style="display: flex;justify-content: flex-end;" nz-menu nzTheme="dark" nzMode="horizontal"
+          class="header-menu">
+        <li [className]="'header-nav-item'" (click)="onResetPassword()">修改密码</li>
+        <li [className]="'header-nav-item'" (click)="onLogout()">
+          <i nz-icon nzType="logout" nzTheme="outline"></i>
+          <span class="nav-item">（{{username}}）注销登录</span>
+        </li>
+      </ul>
+    </nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
