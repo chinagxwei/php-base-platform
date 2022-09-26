@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use App\Models\Wechat\MiniProgram\WechatMiniprogramAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -46,7 +48,7 @@ class Helpers
         $skey = Request::server('HTTP_MINISESSION', false);
         $user_id = ($skey !== false) ? Cache::get(('mini_' . $skey), '') : '';
         // 判断用户是否真实存在
-        $chk = $user_id ? UserMiniProgram::where('user_id', '=', $user_id)->count('id') : 0;
+        $chk = WechatMiniprogramAccount::hasAccount($user_id);
         // 重置过期时间
         $chk && Cache::put('mini_' . $skey, $user_id, Config('base.mini_session_expire'));
         return $chk ? $user_id : 0;
@@ -54,18 +56,19 @@ class Helpers
 
     /**
      * 获取小程序用户信息
-     * @return
+     * @return User|array
      */
     public static function miniUser()
     {
         $skey = Request::server('HTTP_MINISESSION', false);
         $user_id = ($skey !== false) ? Cache::get(('mini_' . $skey), '') : '';
+        /** @var User $user */
         $user = $user_id ? User::with(['miniprogram' => function ($query) {
             $query->select('user_id', 'nickname', 'headimgurl');
         }])->where('id', '=', $user_id)->first() : '';
         if ($user) {
-            $user['nickname'] = $user['miniprogram'] ? $user['miniprogram']['nickname'] : '';
-            $user['headimgurl'] = $user['miniprogram'] ? $user['miniprogram']['headimgurl'] : '';
+            $user['nickname'] = $user->miniprogram ? $user->miniprogram->nickname : '';
+            $user['headimgurl'] = $user->miniprogram ? $user->miniprogram->nickname : '';
             unset($user['miniprogram']);
         }
         return $user ? $user : [];

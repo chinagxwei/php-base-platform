@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 require_once "auth.php";
 require_once "platform/index.php";
+require_once "wechat/index.php";

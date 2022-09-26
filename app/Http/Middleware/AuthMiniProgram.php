@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 use App\Services\Helpers;
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Overtrue\Socialite\User as SocialiteUser;
 
@@ -11,9 +12,9 @@ class AuthMiniProgram
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return
+     * @param Request $request
+     * @param \Closure $next
+     * @return \Illuminate\Http\Response|mixed
      */
     public function handle($request, Closure $next) {
         $user_id = Helpers::checkMiniSession();

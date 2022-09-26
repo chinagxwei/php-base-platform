@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('platform_roles_navigations', function (Blueprint $table) {
-            $table->integer('role_id');
-            $table->integer('navigation_id');
+            $table->integer('role_id')->unsigned();
+            $table->integer('navigation_id')->unsigned();
             $table->primary(['role_id', 'navigation_id']);
             $table->comment('平台角色导航表');
         });

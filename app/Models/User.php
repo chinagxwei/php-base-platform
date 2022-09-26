@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\ActionLog\ActionLog;
 use App\Models\PlatformRole\PlatformRole;
+use App\Models\Wechat\Trait\MiniProgramUser;
+use App\Models\Wechat\Trait\WechatAccountUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,7 +28,15 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use SoftDeletes, HasApiTokens, HasFactory, Notifiable, UserBuild, UserSearch, Manager;
+    use SoftDeletes,
+        HasApiTokens,
+        HasFactory,
+        Notifiable,
+        UserBuild,
+        UserSearch,
+        Manager,
+        MiniProgramUser,
+        WechatAccountUser;
 
     const ROLE_TYPE_MANAGER = 1;
 

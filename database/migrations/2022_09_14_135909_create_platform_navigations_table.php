@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('platform_navigations', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('parent_id')->unsigned()->nullable()->comment('父导航ID');
             $table->string('navigation_name', 64)->comment('导航名称');
             $table->string('navigation_link', 64)->comment('导航链接');
             $table->string('navigation_router', 64)->comment('导航路由');
